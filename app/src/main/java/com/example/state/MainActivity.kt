@@ -27,9 +27,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.text.input.KeyboardType
+import com.example.state.Componentes.MiCard
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,62 +51,14 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun InicioScreen(modifier: Modifier = Modifier) {
-    var textoNum1 by remember { mutableStateOf("") }
-    var textoNum2 by remember { mutableStateOf("") }
-    var resultado by remember { mutableStateOf("") }
+    val ListaNombres=listOf<String>("Ramiro","Carlos","Emilio","Isa",
+        "Ramiro","Carlos","Emilio","Isa",
+        "Ramiro","Carlos","Emilio","Isa")
 
-    Column(modifier = modifier.fillMaxSize()) {
-
-        // Primer Input
-        OutlinedTextField(
-            value = textoNum1,
-            onValueChange = { textoNum1 = it },
-            label = { Text("Ingresa el primer numero") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // Segundo Input
-        OutlinedTextField(
-            value = textoNum2,
-            onValueChange = { textoNum2 = it },
-            label = { Text("Ingresa el segundo numero") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Boton
-        Button(
-            onClick = {
-                val n1 = textoNum1.toDoubleOrNull() ?: 0.0
-                val n2 = textoNum2.toDoubleOrNull() ?: 0.0
-
-                val suma = n1 + n2
-                resultado = if (suma % 1.0 == 0.0) {
-                    suma.toInt().toString()
-                } else {
-                    suma.toString()
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Sumar")
+    LazyColumn(modifier=modifier.fillMaxSize()) {
+        items(ListaNombres){nombre ->
+            MiCard(modifier,nombre)
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Tercer Input
-        OutlinedTextField(
-            value = resultado,
-            onValueChange = {},
-            label = { Text("Resultado") },
-            readOnly = true,
-            modifier = Modifier.fillMaxWidth()
-        )
     }
 }
 
