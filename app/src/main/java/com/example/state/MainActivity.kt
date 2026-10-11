@@ -27,9 +27,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.text.input.KeyboardType
+import com.example.state.Componentes.MiCard
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,14 +99,11 @@ fun InicioScreen(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Tercer Input
-        OutlinedTextField(
-            value = resultado,
-            onValueChange = {},
-            label = { Text("Resultado") },
-            readOnly = true,
-            modifier = Modifier.fillMaxWidth()
-        )
+        LazyColumn(modifier=modifier.fillMaxSize()) {
+            items(ListaNombres){ nombre ->
+                MiCard(modifier, nombre)
+            }
+        }
     }
 }
 
