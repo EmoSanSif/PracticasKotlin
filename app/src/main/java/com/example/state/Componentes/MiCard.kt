@@ -36,13 +36,13 @@ fun MiCard(modifier: Modifier = Modifier, nombre: String) {
     Box(
         modifier = modifier
             .width(360.dp)
-            .height(220.dp)
+            .height(160.dp)
     ) {
         // 1. Fondo de la Tarjeta con Degradado
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 20.dp, end = 20.dp) // Espacio para que el botón sobresalga visualmente
+                .padding(bottom = 20.dp, end = 20.dp)
                 .clip(RoundedCornerShape(24.dp))
                 .background(
                     brush = Brush.linearGradient(
@@ -69,8 +69,6 @@ fun MiCard(modifier: Modifier = Modifier, nombre: String) {
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(top = 4.dp)
                 )
-
-                Spacer(modifier = Modifier.weight(1f))
 
             }
         }

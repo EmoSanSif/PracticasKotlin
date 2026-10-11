@@ -31,6 +31,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.state.Componentes.MiCard
 
@@ -51,54 +52,38 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun InicioScreen(modifier: Modifier = Modifier) {
-    var textoNum1 by remember { mutableStateOf("") }
-    var textoNum2 by remember { mutableStateOf("") }
-    var resultado by remember { mutableStateOf("") }
+    var texto1 by remember { mutableStateOf("") }
+    val ListaNombres = remember { mutableStateListOf<String>() }
 
     Column(modifier = modifier.fillMaxSize()) {
 
         // Primer Input
         OutlinedTextField(
-            value = textoNum1,
-            onValueChange = { textoNum1 = it },
-            label = { Text("Ingresa el primer numero") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            value = texto1,
+            onValueChange = { texto1 = it },
+            label = { Text("Ingresa un Nombre") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Segundo Input
-        OutlinedTextField(
-            value = textoNum2,
-            onValueChange = { textoNum2 = it },
-            label = { Text("Ingresa el segundo numero") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
         // Boton
         Button(
             onClick = {
-                val n1 = textoNum1.toDoubleOrNull() ?: 0.0
-                val n2 = textoNum2.toDoubleOrNull() ?: 0.0
-
-                val suma = n1 + n2
-                resultado = if (suma % 1.0 == 0.0) {
-                    suma.toInt().toString()
-                } else {
-                    suma.toString()
+                if (texto1.isNotBlank()) {
+                    ListaNombres.add(texto1)
+                    texto1 = ""
                 }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Sumar")
+            Text("Agregar")
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
+        // Lazy column
         LazyColumn(modifier=modifier.fillMaxSize()) {
             items(ListaNombres){ nombre ->
                 MiCard(modifier, nombre)
