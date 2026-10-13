@@ -99,6 +99,9 @@ fun InicioScreen(modifier: Modifier = Modifier) {
                     } else {
                         suma.toString()
                     }
+
+                    Num1 = ""
+                    Num2 = ""
                 },
                 modifier = Modifier.weight(1f)
             ) {
@@ -116,6 +119,9 @@ fun InicioScreen(modifier: Modifier = Modifier) {
                     } else {
                         suma.toString()
                     }
+
+                    Num1 = ""
+                    Num2 = ""
                 },
                 modifier = Modifier.weight(1f)
             ) {
@@ -141,6 +147,9 @@ fun InicioScreen(modifier: Modifier = Modifier) {
                     } else {
                         suma.toString()
                     }
+
+                    Num1 = ""
+                    Num2 = ""
                 },
                 modifier = Modifier.weight(1f)
             ) {
@@ -158,6 +167,9 @@ fun InicioScreen(modifier: Modifier = Modifier) {
                     } else {
                         suma.toString()
                     }
+
+                    Num1 = ""
+                    Num2 = ""
                 },
                 modifier = Modifier.weight(1f)
             ) {
@@ -184,6 +196,9 @@ fun InicioScreen(modifier: Modifier = Modifier) {
                     } else {
                         suma.toString()
                     }
+
+                    Num1 = ""
+                    Num2 = ""
                 },
                 modifier = Modifier.weight(1f)
             ) {
@@ -191,7 +206,8 @@ fun InicioScreen(modifier: Modifier = Modifier) {
             }
 
             Button(
-                onClick = { val n1 = Num1.toDoubleOrNull() ?: 0.0
+                onClick = {
+                    val n1 = Num1.toDoubleOrNull() ?: 0.0
                     val n2 = Num2.toDoubleOrNull() ?: 0.0
 
                     val suma = n1.pow((1/n2))
@@ -199,7 +215,11 @@ fun InicioScreen(modifier: Modifier = Modifier) {
                         suma.toInt().toString()
                     } else {
                         suma.toString()
-                    } },
+                    }
+
+                    Num1 = ""
+                    Num2 = ""
+                },
                 modifier = Modifier.weight(1f)
             ) {
                 Text("Raiz")
@@ -215,7 +235,12 @@ fun InicioScreen(modifier: Modifier = Modifier) {
         ) {
             Button(
                 onClick = {
+                    if (res.isNotEmpty()) {
+                        Num1 = res
 
+                        Num2 = ""
+                        res = ""
+                    }
                 },
                 modifier = Modifier.weight(1f)
             ) {
@@ -223,7 +248,11 @@ fun InicioScreen(modifier: Modifier = Modifier) {
             }
 
             Button(
-                onClick = { /* Aquí irá tu lógica */ },
+                onClick = {
+                    Num1 = "3.14"
+
+                    res = ""
+                },
                 modifier = Modifier.weight(1f)
             ) {
                 Text("Pi")
