@@ -50,9 +50,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun InicioScreen(modifier: Modifier = Modifier) {
-    var textoNum1 by remember { mutableStateOf("") }
-    var textoNum2 by remember { mutableStateOf("") }
-    var resultado by remember { mutableStateOf("") }
+    var Num1 by remember { mutableStateOf("") }
+    var Num2 by remember { mutableStateOf("") }
+    var res by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier
@@ -62,8 +62,8 @@ fun InicioScreen(modifier: Modifier = Modifier) {
 
         // Primer Input
         OutlinedTextField(
-            value = textoNum1,
-            onValueChange = { textoNum1 = it },
+            value = Num1,
+            onValueChange = { Num1 = it },
             label = { Text("Ingresa el primer numero") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
@@ -73,8 +73,8 @@ fun InicioScreen(modifier: Modifier = Modifier) {
 
         // Segundo Input
         OutlinedTextField(
-            value = textoNum2,
-            onValueChange = { textoNum2 = it },
+            value = Num2,
+            onValueChange = { Num2 = it },
             label = { Text("Ingresa el segundo numero") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
@@ -88,7 +88,9 @@ fun InicioScreen(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Button(
-                onClick = { /* Aquí irá tu lógica */ },
+                onClick = {
+
+                },
                 modifier = Modifier.weight(1f)
             ) {
                 Text("Sumar")
@@ -173,7 +175,7 @@ fun InicioScreen(modifier: Modifier = Modifier) {
 
         // Input Final: Resultado
         OutlinedTextField(
-            value = resultado,
+            value = res,
             onValueChange = {},
             label = { Text("Resultado") },
             readOnly = true,
