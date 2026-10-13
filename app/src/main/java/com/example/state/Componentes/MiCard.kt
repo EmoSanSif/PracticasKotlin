@@ -25,9 +25,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.toColorInt
 
 @Composable
-fun MiCard(modifier: Modifier = Modifier, nombre: String) {
+fun MiCard(modifier: Modifier = Modifier, nombre: Color) {
     val colorCian = Color(0xFF59F2D6)
     val colorLima = Color(0xFFC8F969)
     val colorTextoSecundario = Color(0xFF1B3B36)
@@ -45,9 +46,7 @@ fun MiCard(modifier: Modifier = Modifier, nombre: String) {
                 .padding(bottom = 20.dp, end = 20.dp)
                 .clip(RoundedCornerShape(24.dp))
                 .background(
-                    brush = Brush.linearGradient(
-                        colors = listOf(colorCian, colorLima)
-                    )
+                    color = Color(nombre.value)
                 )
                 .padding(24.dp)
         ) {
@@ -56,14 +55,14 @@ fun MiCard(modifier: Modifier = Modifier, nombre: String) {
             ) {
                 // Título del balance
                 Text(
-                    text = "Nombre",
+                    text = "Color:",
                     color = colorTextoSecundario,
                     fontSize = 14.sp
                 )
 
                 // Cantidad principal
                 Text(
-                    text = nombre,
+                    text = nombre.toString(),
                     color = Color.Black,
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold,

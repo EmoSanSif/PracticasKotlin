@@ -32,6 +32,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.state.Componentes.MiCard
 
@@ -53,7 +54,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun InicioScreen(modifier: Modifier = Modifier) {
     var texto1 by remember { mutableStateOf("") }
-    val ListaNombres = remember { mutableStateListOf<String>() }
+    val ListaColores = remember { mutableStateListOf<Color>() }
 
     Column(modifier = modifier.fillMaxSize()) {
 
@@ -61,7 +62,7 @@ fun InicioScreen(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = texto1,
             onValueChange = { texto1 = it },
-            label = { Text("Ingresa un Nombre") },
+            label = { Text("Ingresa un Color") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier.fillMaxWidth()
         )
@@ -72,7 +73,7 @@ fun InicioScreen(modifier: Modifier = Modifier) {
         Button(
             onClick = {
                 if (texto1.isNotBlank()) {
-                    ListaNombres.add(texto1)
+                    ListaColores.add(obtenerColor(texto1))
                     texto1 = ""
                 }
             },
@@ -85,10 +86,22 @@ fun InicioScreen(modifier: Modifier = Modifier) {
 
         // Lazy column
         LazyColumn(modifier=modifier.fillMaxSize()) {
-            items(ListaNombres){ nombre ->
+            items(ListaColores){ nombre ->
                 MiCard(modifier, nombre)
             }
         }
+    }
+}
+
+fun obtenerColor(nombreColor: String): Color {
+    return when (nombreColor.trim().lowercase()) {
+        "rojo" -> Color(0xFFCE1126)
+        "verde" -> Color(0xFF006341)
+        "azul" -> Color(0xFF003893)
+        "amarillo" -> Color(0xFFFFCC00)
+        "negro" -> Color.Black
+        "blanco" -> Color.White
+        else -> Color.LightGray
     }
 }
 
