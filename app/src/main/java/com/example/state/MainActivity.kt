@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.state.ui.theme.StateTheme
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -52,7 +54,11 @@ fun InicioScreen(modifier: Modifier = Modifier) {
     var textoNum2 by remember { mutableStateOf("") }
     var resultado by remember { mutableStateOf("") }
 
-    Column(modifier = modifier.fillMaxSize()) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(10.dp)
+    ) {
 
         // Primer Input
         OutlinedTextField(
@@ -74,29 +80,98 @@ fun InicioScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
-        // Boton
-        Button(
-            onClick = {
-                val n1 = textoNum1.toDoubleOrNull() ?: 0.0
-                val n2 = textoNum2.toDoubleOrNull() ?: 0.0
-
-                val suma = n1 + n2
-                resultado = if (suma % 1.0 == 0.0) {
-                    suma.toInt().toString()
-                } else {
-                    suma.toString()
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
+        // Fila 1: Sumar y Restar
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text("Sumar")
+            Button(
+                onClick = { /* Aquí irá tu lógica */ },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("Sumar")
+            }
+
+            Button(
+                onClick = { /* Aquí irá tu lógica */ },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("Restar")
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Tercer Input
+        // Fila 2: Multiplicar y Dividir
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Button(
+                onClick = { /* Aquí irá tu lógica */ },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("Multiplicar")
+            }
+
+            Button(
+                onClick = { /* Aquí irá tu lógica */ },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("Dividir")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Fila 3: Potencia y Raiz Cuadrada
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Button(
+                onClick = { /* Aquí irá tu lógica */ },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("Potencia")
+            }
+
+            Button(
+                onClick = { /* Aquí irá tu lógica */ },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("Raiz")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Fila 4: Botones Ans e Igual
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Button(
+                onClick = { /* Aquí irá tu lógica */ },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("Ans")
+            }
+
+            Button(
+                onClick = { /* Aquí irá tu lógica */ },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("Igual")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Input Final: Resultado
         OutlinedTextField(
             value = resultado,
             onValueChange = {},
@@ -106,7 +181,6 @@ fun InicioScreen(modifier: Modifier = Modifier) {
         )
     }
 }
-
 
 
 @Preview(showBackground = true)
