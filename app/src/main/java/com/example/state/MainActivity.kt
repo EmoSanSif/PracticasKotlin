@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.text.input.KeyboardType
+import kotlin.math.pow
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,7 +90,15 @@ fun InicioScreen(modifier: Modifier = Modifier) {
         ) {
             Button(
                 onClick = {
+                    val n1 = Num1.toDoubleOrNull() ?: 0.0
+                    val n2 = Num2.toDoubleOrNull() ?: 0.0
 
+                    val suma = n1 + n2
+                    res = if (suma % 1.0 == 0.0) {
+                        suma.toInt().toString()
+                    } else {
+                        suma.toString()
+                    }
                 },
                 modifier = Modifier.weight(1f)
             ) {
@@ -97,7 +106,17 @@ fun InicioScreen(modifier: Modifier = Modifier) {
             }
 
             Button(
-                onClick = { /* Aquí irá tu lógica */ },
+                onClick = {
+                    val n1 = Num1.toDoubleOrNull() ?: 0.0
+                    val n2 = Num2.toDoubleOrNull() ?: 0.0
+
+                    val suma = n1 - n2
+                    res = if (suma % 1.0 == 0.0) {
+                        suma.toInt().toString()
+                    } else {
+                        suma.toString()
+                    }
+                },
                 modifier = Modifier.weight(1f)
             ) {
                 Text("Restar")
@@ -112,14 +131,34 @@ fun InicioScreen(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Button(
-                onClick = { /* Aquí irá tu lógica */ },
+                onClick = {
+                    val n1 = Num1.toDoubleOrNull() ?: 0.0
+                    val n2 = Num2.toDoubleOrNull() ?: 0.0
+
+                    val suma = n1 * n2
+                    res = if (suma % 1.0 == 0.0) {
+                        suma.toInt().toString()
+                    } else {
+                        suma.toString()
+                    }
+                },
                 modifier = Modifier.weight(1f)
             ) {
                 Text("Multiplicar")
             }
 
             Button(
-                onClick = { /* Aquí irá tu lógica */ },
+                onClick = {
+                    val n1 = Num1.toDoubleOrNull() ?: 0.0
+                    val n2 = Num2.toDoubleOrNull() ?: 0.0
+
+                    val suma = n1 / n2
+                    res = if (suma % 1.0 == 0.0) {
+                        suma.toInt().toString()
+                    } else {
+                        suma.toString()
+                    }
+                },
                 modifier = Modifier.weight(1f)
             ) {
                 Text("Dividir")
@@ -135,14 +174,32 @@ fun InicioScreen(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Button(
-                onClick = { /* Aquí irá tu lógica */ },
+                onClick = {
+                    val n1 = Num1.toDoubleOrNull() ?: 0.0
+                    val n2 = Num2.toDoubleOrNull() ?: 0.0
+
+                    val suma = n1.pow(n2)
+                    res = if (suma % 1.0 == 0.0) {
+                        suma.toInt().toString()
+                    } else {
+                        suma.toString()
+                    }
+                },
                 modifier = Modifier.weight(1f)
             ) {
                 Text("Potencia")
             }
 
             Button(
-                onClick = { /* Aquí irá tu lógica */ },
+                onClick = { val n1 = Num1.toDoubleOrNull() ?: 0.0
+                    val n2 = Num2.toDoubleOrNull() ?: 0.0
+
+                    val suma = n1.pow((1/n2))
+                    res = if (suma % 1.0 == 0.0) {
+                        suma.toInt().toString()
+                    } else {
+                        suma.toString()
+                    } },
                 modifier = Modifier.weight(1f)
             ) {
                 Text("Raiz")
@@ -157,7 +214,9 @@ fun InicioScreen(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Button(
-                onClick = { /* Aquí irá tu lógica */ },
+                onClick = {
+
+                },
                 modifier = Modifier.weight(1f)
             ) {
                 Text("Ans")
@@ -167,7 +226,7 @@ fun InicioScreen(modifier: Modifier = Modifier) {
                 onClick = { /* Aquí irá tu lógica */ },
                 modifier = Modifier.weight(1f)
             ) {
-                Text("Igual")
+                Text("Pi")
             }
         }
 
