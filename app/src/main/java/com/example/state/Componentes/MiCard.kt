@@ -1,6 +1,7 @@
 package com.example.state.Componentes
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun MiCard(modifier: Modifier = Modifier, nombre: String) {
+fun MiCard(modifier: Modifier = Modifier, nombre: String,eliminar:()-> Unit, actualizar:()-> Unit) {
     val colorCian = Color(0xFF59F2D6)
     val colorLima = Color(0xFFC8F969)
     val colorTextoSecundario = Color(0xFF1B3B36)
@@ -54,21 +55,38 @@ fun MiCard(modifier: Modifier = Modifier, nombre: String) {
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                // Título del balance
-                Text(
-                    text = "Nombre",
-                    color = colorTextoSecundario,
-                    fontSize = 14.sp
-                )
+                Row(Modifier.fillMaxWidth().padding(end=15.dp, top = 5.dp), horizontalArrangement = Arrangement.End) {
 
-                // Cantidad principal
-                Text(
-                    text = nombre,
-                    color = Color.Black,
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
+                    Text(
+                        text = "A",
+                        color = colorTextoSecundario,
+                        fontSize = 18.sp,
+                        modifier = Modifier.clickable{
+                            actualizar()
+                        }
+                    )
+
+                    Text(
+                        text = "X",
+                        color = colorTextoSecundario,
+                        fontSize = 18.sp,
+                        modifier = Modifier.padding(start = 4.dp).clickable{
+                            eliminar()
+                        }
+                    )
+                }
+
+                Row(Modifier.fillMaxWidth().padding(start = 15.dp, top = 10.dp)) {
+
+                    // Cantidad principal
+                    Text(
+                        text = nombre,
+                        color = Color.Black,
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
 
             }
         }

@@ -55,6 +55,10 @@ fun InicioScreen(modifier: Modifier = Modifier) {
     var texto1 by remember { mutableStateOf("") }
     val ListaNombres = remember { mutableStateListOf<String>() }
 
+    fun eliminarNombre(nombre: String) {
+        ListaNombres.remove(nombre)
+    }
+
     Column(modifier = modifier.fillMaxSize()) {
 
         // Primer Input
@@ -86,7 +90,9 @@ fun InicioScreen(modifier: Modifier = Modifier) {
         // Lazy column
         LazyColumn(modifier=modifier.fillMaxSize()) {
             items(ListaNombres){ nombre ->
-                MiCard(modifier, nombre)
+                MiCard(modifier, nombre, {eliminarNombre(nombre)},
+                    {eliminarNombre(nombre)
+                    texto1 = nombre})
             }
         }
     }
