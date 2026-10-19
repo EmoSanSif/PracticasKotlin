@@ -32,9 +32,12 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.state.ui.theme.StateTheme
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -61,202 +64,201 @@ class MainActivity : ComponentActivity() {
 
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InicioScreen(modifier: Modifier = Modifier) {
-    var personasActuales by remember { mutableStateOf(0) }
-    var visitasDelDia by remember { mutableStateOf(0) }
-    val capacidadMaxima = 50
+    // 1. Variables de Estado del Formulario
+    var nombre by remember { mutableStateOf("") }
+    var correo by remember { mutableStateOf("") }
+    var edad by remember { mutableStateOf("") }
+    var tallerSeleccionado by remember { mutableStateOf("") }
+    var privacidadAceptada by remember { mutableStateOf(false) }
 
-    val porcentajeOcupacion = if (capacidadMaxima > 0) personasActuales.toFloat() / capacidadMaxima else 0f
-    val porcentajeTexto = (porcentajeOcupacion * 100).toInt()
+    // 2. Variables de Control de Flujo
+    var intentoEnvio by remember { mutableStateOf(false) }
+    var pantallaConfirmacion by remember { mutableStateOf(false) }
+    var dropdownExpandido by remember { mutableStateOf(false) }
 
-    val colorIndicador = when {
-        porcentajeTexto < 70 -> Color(0xFF2E7D32)
-        porcentajeTexto < 100 -> Color(0xFFF57F17)
-        else -> Color(0xFFD32F2F)
-    }
+    val talleresDisponibles = listOf("Pintura", "Fotografía", "Guitarra")
 
-    val colorFondoTarjeta = Color(0xFFEDF7ED)
-    val colorBotonEntra = Color(0xFF6750A4)
+    // 3. Lógicas de Validación
+    val nombreValido = nombre.trim().length >= 3
+    val correoValido = correo.contains("@") && correo.substringAfter("@", "").contains(".")
+    val edadNum = edad.toIntOrNull() ?: 0
+    val edadValida = edadNum in 12..99
+    val tallerValido = tallerSeleccionado.isNotBlank()
+    val formularioValido = nombreValido && correoValido && edadValida && tallerValido && privacidadAceptada
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Encabezado
-        Text(
-            text = "Biblioteca Central",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Start
-        )
-        Text(
-            text = "Sala de estudio · capacidad $capacidadMaxima",
-            fontSize = 14.sp,
-            color = Color.Gray,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 24.dp),
-            textAlign = TextAlign.Start
-        )
-
-        // Tarjeta principal de aforo
-        Card(
-            colors = CardDefaults.cardColors(containerColor = colorFondoTarjeta),
-            shape = RoundedCornerShape(24.dp),
-            modifier = Modifier.fillMaxWidth()
+    if (!pantallaConfirmacion) {
+        // ==========================================
+        // PANTALLA 1: FORMULARIO
+        // ==========================================
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(24.dp)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Column(
-                modifier = Modifier.padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "$personasActuales / $capacidadMaxima",
-                    fontSize = 48.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = colorIndicador
-                )
-                Text(
-                    text = "personas en la sala",
-                    fontSize = 14.sp,
-                    color = Color.DarkGray
-                )
+            // Encabezados
+            Text(text = "Inscripción a talleres", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Text(text = "Casa del Lago · cupo limitado", color = Color.Gray, fontSize = 14.sp)
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Barra de progreso
-                LinearProgressIndicator(
-                    progress = porcentajeOcupacion,
-                    color = colorIndicador,
-                    trackColor = Color.LightGray.copy(alpha = 0.5f),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(8.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Text(
-                    text = "$porcentajeTexto % de ocupación",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = colorIndicador
-                )
-                Text(
-                    text = "Aforo disponible",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Botones Entra / Sale
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            OutlinedButton(
-                onClick = { if (personasActuales > 0) personasActuales-- },
-                enabled = personasActuales > 0,
-                modifier = Modifier
-                    .weight(1f)
-                    .height(50.dp)
-            ) {
-                Text("- Sale", fontSize = 16.sp)
-            }
-
-            Button(
-                onClick = {
-                    if (personasActuales < capacidadMaxima) {
-                        personasActuales++
-                        visitasDelDia++
-                    }
+            // Campo: Nombre
+            OutlinedTextField(
+                value = nombre,
+                onValueChange = { nombre = it },
+                label = { Text("Nombre completo") },
+                isError = intentoEnvio && !nombreValido,
+                supportingText = {
+                    if (intentoEnvio && !nombreValido) Text("Debe tener al menos 3 caracteres")
                 },
-                enabled = personasActuales < capacidadMaxima,
-                colors = ButtonDefaults.buttonColors(containerColor = colorBotonEntra),
-                modifier = Modifier
-                    .weight(1f)
-                    .height(50.dp)
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            // Campo: Correo
+            OutlinedTextField(
+                value = correo,
+                onValueChange = { correo = it },
+                label = { Text("Correo") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                isError = intentoEnvio && !correoValido,
+                supportingText = {
+                    if (intentoEnvio && !correoValido) Text("Ingresa un correo válido (ej. usuario@dominio.com)")
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            // Campo: Edad
+            OutlinedTextField(
+                value = edad,
+                onValueChange = { edad = it },
+                label = { Text("Edad") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                isError = intentoEnvio && !edadValida,
+                supportingText = {
+                    if (intentoEnvio && !edadValida) Text("La edad debe estar entre 12 y 99 años")
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            // Menú Desplegable: Taller
+            ExposedDropdownMenuBox(
+                expanded = dropdownExpandido,
+                onExpandedChange = { dropdownExpandido = !dropdownExpandido }
             ) {
-                Text("+ Entra", fontSize = 16.sp)
+                OutlinedTextField(
+                    value = tallerSeleccionado,
+                    onValueChange = {},
+                    readOnly = true,
+                    label = { Text("Taller") },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = dropdownExpandido) },
+                    isError = intentoEnvio && !tallerValido,
+                    supportingText = {
+                        if (intentoEnvio && !tallerValido) Text("Selecciona un taller de la lista")
+                    },
+                    colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                    modifier = Modifier.menuAnchor().fillMaxWidth()
+                )
+                ExposedDropdownMenu(
+                    expanded = dropdownExpandido,
+                    onDismissRequest = { dropdownExpandido = false }
+                ) {
+                    talleresDisponibles.forEach { opcion ->
+                        DropdownMenuItem(
+                            text = { Text(opcion) },
+                            onClick = {
+                                tallerSeleccionado = opcion
+                                dropdownExpandido = false
+                            }
+                        )
+                    }
+                }
             }
-        }
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Tarjeta de Visitas del Día
-        Card(
-            colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5)),
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
+            // Casilla de Privacidad
             Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(20.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .clickable { privacidadAceptada = !privacidadAceptada }
+                    .padding(vertical = 8.dp)
             ) {
-                Column {
-                    Text(text = "Visitas del día", fontWeight = FontWeight.Bold, color = Color.DarkGray)
-                    Text(text = "Solo suma las entradas", fontSize = 12.sp, color = Color.Gray)
-                }
+                Checkbox(
+                    checked = privacidadAceptada,
+                    onCheckedChange = { privacidadAceptada = it }
+                )
                 Text(
-                    text = "$visitasDelDia",
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold
+                    text = "Acepto el aviso de privacidad",
+                    color = if (intentoEnvio && !privacidadAceptada) MaterialTheme.colorScheme.error else Color.Unspecified
                 )
             }
+
+            // Botón Inscribirme
+            Button(
+                onClick = {
+                    intentoEnvio = true // Registramos que el usuario ya intentó enviar
+                    if (formularioValido) {
+                        pantallaConfirmacion = true // Cambiamos de pantalla
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6750A4)), // Morado
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
+                Text("Inscribirme", fontSize = 16.sp)
+            }
         }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Leyenda de colores
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
+    } else {
+        // ==========================================
+        // PANTALLA 2: CONFIRMACIÓN
+        // ==========================================
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            IndicadorLeyenda(color = Color(0xFF2E7D32), texto = "Verde < 70 %")
-            IndicadorLeyenda(color = Color(0xFFF57F17), texto = "Amarillo 70–99 %")
-            IndicadorLeyenda(color = Color(0xFFD32F2F), texto = "Rojo 100 %")
+            Text(text = "¡Inscripción Exitosa!", fontSize = 28.sp, fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Resumen de datos
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5))
+            ) {
+                Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("Resumen de inscripción:", fontWeight = FontWeight.Bold)
+                    Text("Nombre: $nombre")
+                    Text("Correo: $correo")
+                    Text("Edad: $edad años")
+                    Text("Taller: $tallerSeleccionado")
+                }
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Botón Nueva Inscripción
+            OutlinedButton(
+                onClick = {
+                    // Reseteamos absolutamente todo
+                    nombre = ""
+                    correo = ""
+                    edad = ""
+                    tallerSeleccionado = ""
+                    privacidadAceptada = false
+                    intentoEnvio = false
+                    pantallaConfirmacion = false
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
+                Text("Nueva inscripción", fontSize = 16.sp)
+            }
         }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Botón Cerrar Día
-        OutlinedButton(
-            onClick = {
-                personasActuales = 0
-                visitasDelDia = 0
-            },
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFFD32F2F)),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-        ) {
-            Text("Cerrar día", fontWeight = FontWeight.Bold)
-        }
-    }
-}
-
-@Composable
-fun IndicadorLeyenda(color: Color, texto: String) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Box(
-            modifier = Modifier
-                .size(10.dp)
-                .clip(CircleShape)
-                .background(color)
-        )
-        Spacer(modifier = Modifier.width(4.dp))
-        Text(text = texto, fontSize = 10.sp, color = Color.Gray)
     }
 }
 
