@@ -48,7 +48,52 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun InicioScreen(modifier: Modifier = Modifier) {
+    var titulo by remember { mutableStateOf("") }
+    var autor by remember { mutableStateOf("") }
+    var n_pag by remember { mutableStateOf("") }
 
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(10.dp)
+    ) {
+
+        OutlinedTextField(
+            value = titulo,
+            onValueChange = { titulo = it },
+            label = { Text("Ingresa el titulo del libro") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedTextField(
+            value = autor,
+            onValueChange = { autor = it },
+            label = { Text("Ingresa el nombre del autor") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedTextField(
+            value = n_pag,
+            onValueChange = { n_pag = it },
+            label = { Text("Cuantas paginas tiene el libro") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(10.dp)
+        ) {
+
+        }
+    }
 }
 
 
