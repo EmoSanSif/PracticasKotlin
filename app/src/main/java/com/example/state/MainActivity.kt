@@ -48,63 +48,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun InicioScreen(modifier: Modifier = Modifier) {
-    var textoNum1 by remember { mutableStateOf("") }
-    var textoNum2 by remember { mutableStateOf("") }
-    var resultado by remember { mutableStateOf("") }
 
-    Column(modifier = modifier.fillMaxSize()) {
-
-        // Primer Input
-        OutlinedTextField(
-            value = textoNum1,
-            onValueChange = { textoNum1 = it },
-            label = { Text("Ingresa el primer numero") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // Segundo Input
-        OutlinedTextField(
-            value = textoNum2,
-            onValueChange = { textoNum2 = it },
-            label = { Text("Ingresa el segundo numero") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Boton
-        Button(
-            onClick = {
-                val n1 = textoNum1.toDoubleOrNull() ?: 0.0
-                val n2 = textoNum2.toDoubleOrNull() ?: 0.0
-
-                val suma = n1 + n2
-                resultado = if (suma % 1.0 == 0.0) {
-                    suma.toInt().toString()
-                } else {
-                    suma.toString()
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Sumar")
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Tercer Input
-        OutlinedTextField(
-            value = resultado,
-            onValueChange = {},
-            label = { Text("Resultado") },
-            readOnly = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
 }
 
 
