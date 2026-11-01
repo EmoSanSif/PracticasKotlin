@@ -29,7 +29,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.text.input.KeyboardType
+import com.example.state.Clases.Libro
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,9 +50,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun InicioScreen(modifier: Modifier = Modifier) {
-    var titulo by remember { mutableStateOf("") }
-    var autor by remember { mutableStateOf("") }
-    var n_pag by remember { mutableStateOf("") }
+    var titulo by rememberSaveable { mutableStateOf("") }
+    var autor by rememberSaveable { mutableStateOf("") }
+    var n_pag by rememberSaveable { mutableStateOf("") }
+    var lib by rememberSaveable { mutableStateOf(Libro("","",0)) }
 
     Column(
         modifier = modifier
@@ -85,6 +88,17 @@ fun InicioScreen(modifier: Modifier = Modifier) {
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Button(
+            onClick = {
+                lib = Libro(titulo, autor, n_pag.toInt())
+            },
+            modifier = Modifier.weight(1f)
+        ) {
+            Text("Describir")
+        }
 
         Column(
             modifier = modifier
