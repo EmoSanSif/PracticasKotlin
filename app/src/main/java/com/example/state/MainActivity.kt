@@ -53,7 +53,7 @@ fun InicioScreen(modifier: Modifier = Modifier) {
     var titulo by rememberSaveable { mutableStateOf("") }
     var autor by rememberSaveable { mutableStateOf("") }
     var n_pag by rememberSaveable { mutableStateOf("") }
-    var lib by rememberSaveable { mutableStateOf(Libro("","",0)) }
+    var lib by remember { mutableStateOf(Libro("","",0)) }
 
     Column(
         modifier = modifier
@@ -93,19 +93,19 @@ fun InicioScreen(modifier: Modifier = Modifier) {
 
         Button(
             onClick = {
-                lib = Libro(titulo, autor, n_pag.toInt())
+                lib = Libro(titulo, autor, n_pag.toIntOrNull())
             },
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text("Describir")
         }
 
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(10.dp)
         ) {
-
+            lib.Describir()
         }
     }
 }

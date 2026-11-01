@@ -21,7 +21,7 @@ import com.example.state.Clases.Libro
 
 @Composable
 fun MiCard(modifier: Modifier, libro: Libro) {
-    Box(modifier = Modifier.fillMaxWidth().height(70.dp)
+    Box(modifier = Modifier.fillMaxWidth().height(110.dp)
         .border(
             width = 2.dp,
             color = Color.Blue,
@@ -29,7 +29,7 @@ fun MiCard(modifier: Modifier, libro: Libro) {
         ).background(Color.White)
         , contentAlignment = Alignment.Center)
     {
-        Column(modifier.fillMaxSize()) {
+        Column(modifier.fillMaxSize().padding(8.dp)) {
             Text("Titulo: " + libro.titulo)
             Spacer(modifier = Modifier.padding(3.dp))
 
