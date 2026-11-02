@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.state.Clases.Celular
 
@@ -50,7 +51,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun InicioScreen(modifier: Modifier = Modifier) {
-    val lista by remember {  }
+    val c1 = Celular("Iphone10", "Apple")
+    val c2 = Celular("Poco-X1", "Huawei", 64)
+    val ListaCelelulares = remember { mutableStateListOf<Celular>(c1,c2) }
 }
 
 
