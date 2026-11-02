@@ -100,7 +100,7 @@ fun InicioScreen(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 24.dp),
-            textAlign = TextAlign.Start
+            textAlign = TextAlign.End
         )
 
         // Tarjeta principal de aforo
