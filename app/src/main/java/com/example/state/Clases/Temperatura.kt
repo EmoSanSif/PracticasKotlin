@@ -1,7 +1,7 @@
 package com.example.state.Clases
 
 class Temperatura(var celsius: Double) {
-    var farenheit: Double = 0
+    var farenheit: Double
 
     init {
         require(celsius >= -273.15) { "La temperatura no puede ser menor a -273.15 grados "}
