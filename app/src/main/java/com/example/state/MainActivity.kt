@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.text.input.KeyboardType
+import com.example.state.Clases.Temperatura
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +49,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun InicioScreen(modifier: Modifier = Modifier) {
-
+var t1 = Temperatura(150.0)
+var t2 = Temperatura(-2.0)
+val temps = remember { mutableListOf<Temperatura> (t1, t2) }
 }
 
 
