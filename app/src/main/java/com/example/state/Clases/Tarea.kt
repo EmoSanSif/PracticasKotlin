@@ -1,5 +1,9 @@
 package com.example.state.Clases
 
-class Tarea(val Nombre: String, val Prioridad: String) {
-    var completada: Boolean = false
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+
+class Tarea(val Nombre: String, val Prioridad: String, estado: Boolean = false) {
+    var completada by mutableStateOf(estado)
 }

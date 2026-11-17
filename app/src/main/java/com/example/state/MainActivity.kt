@@ -66,8 +66,7 @@ fun InicioScreen(modifier: Modifier = Modifier) {
     var tarea by remember { mutableStateOf("") }
     var prioridad by remember { mutableStateOf("Alta") }
     var mostrar by remember { mutableStateOf("Todas") }
-    var cantidad by remember { mutableStateOf(0) }
-    val lista = remember { mutableListOf<Tarea> (Tarea("Work", "Alta")) }
+    val lista = remember { mutableListOf<Tarea> (Tarea("Work", "Alta", true)) }
     val listaP = remember { mutableListOf<Tarea> () }
     val listaH = remember { mutableListOf<Tarea> () }
 
@@ -166,34 +165,20 @@ fun InicioScreen(modifier: Modifier = Modifier) {
         )
 
         // Rows Tareas
+
+        val tareasFiltradas = when (mostrar) {
+            "Pendientes" -> lista.filter { !it.completada }
+            "Hechas" -> lista.filter { it.completada }
+            else -> lista
+        }
+
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            if (mostrar == "Todas") {
-                items(lista){ valor ->
-                    RowTarea(valor, {lista.remove(valor)})
-                }
+            items(tareasFiltradas) { valor ->
+                RowTarea(
+                    tarea = valor,
+                     { lista.remove(valor) },
+                )
             }
-
-            if (mostrar == "Pendientes") {
-
-                items(lista){ valor ->
-                    if(!valor.completada) { listaP.add(valor)}
-                }
-
-                items(listaP){ valor ->
-                    RowTarea(valor, {lista.remove(valor)})
-                }
-            }
-
-            if (mostrar == "Hechas") {
-                items(lista){ valor ->
-                    if(valor.completada) { listaH.add(valor)}
-                }
-
-                items(listaH){ valor ->
-                    RowTarea(valor, {lista.remove(valor)})
-                }
-            }
-
         }
 
         Spacer(modifier = Modifier.fillMaxWidth().height(14.dp))
