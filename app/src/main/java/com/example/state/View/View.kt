@@ -40,12 +40,10 @@ import java.util.Locale
 @Composable
 fun InicioScreen(
     modifier: Modifier = Modifier,
-    carritoViewModel: CarritoViewModel = viewModel() // 1. Conectamos el ViewModel
+    carritoViewModel: CarritoViewModel = viewModel()
 ) {
-    // 2. Observamos el estado (Model) expuesto por el ViewModel
     val uiState by carritoViewModel.uiState.collectAsState()
 
-    // Función auxiliar visual para dar formato de moneda ($0.00)
     fun formatoMoneda(valor: Double): String = String.format(Locale.US, "$%,.2f", valor)
 
     Column(
@@ -54,7 +52,6 @@ fun InicioScreen(
             .background(color = Color.White)
             .padding(20.dp)
     ) {
-        // Encabezado + Contador circular de artículos
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -194,7 +191,6 @@ fun InicioScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Botones Vaciar / Confirmar pedido
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -221,7 +217,6 @@ fun InicioScreen(
     }
 }
 
-// Composable reutilizable para cada fila de producto (Stateless)
 @Composable
 fun RowProducto(
     producto: com.example.state.Model.Producto,
@@ -237,7 +232,6 @@ fun RowProducto(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            // Nombre y precio unitario
             Column {
                 Text(
                     text = producto.nombre,
@@ -252,7 +246,6 @@ fun RowProducto(
                 )
             }
 
-            // Controles de cantidad (- cantidad +)
             Row(verticalAlignment = Alignment.CenterVertically) {
                 BotonCircularStepper(
                     simbolo = "−",
